@@ -20,15 +20,16 @@ function create(){
 	loadLevel(this.game.cache.getJSON('level:1'));
 	leftKey = game.input.keyboard.addKey(Phaser.Keyboard.LEFT);
 	rightKey = game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
+    upKey = game.input.keyboard.addKey(Phaser.Keyboard.UP);
 }
 
 
 function update(){
-	 handleInput();
-	 handleCollisions();
+	  handleCollisions();
+     handleInput();
 };
 
-function loadLevel(data) {
+function loadLevel(data){
 	console.log(data);
 	platforms = game.add.group();
 	 data.platforms.forEach(spawnPlatform, this);
@@ -44,6 +45,7 @@ function spawnPlatform(platform) {
     console.log(sprite);
     game.physics.enable(sprite);
     sprite.body.allowGravity = false;
+    sprite.body.immovable = true;
 };
 
 function spawnCharacters(data){
@@ -52,7 +54,7 @@ function spawnCharacters(data){
 	game.physics.enable(hero);
 	hero.body.collideWorldBounds = true;
 	game.physics.enable(hero);
-	 hero.body.collideWorldBounds = true;
+
 };
 
 function move(direction){
