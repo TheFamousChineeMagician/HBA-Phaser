@@ -1,4 +1,6 @@
 var level = 0;
+var hasKey = false;
+var level = 0;
 
 function init(){
     game.renderer.renderSession.roundPixels = true;
@@ -6,7 +8,8 @@ function init(){
 
 function preload(){
     game.load.image('background', 'images/background.png');
-    game.load.json('level:1', 'data/level01.json');
+     game.load.json('level:1', 'data/level01.json');
+    game.load.json('level:0', 'data/level00.json');
     //spawn platform sprites
     game.load.image('ground', 'images/ground.png');
     game.load.image('grass:8x1', 'images/grass_8x1.png');
@@ -37,7 +40,7 @@ function create(){
     sfxJump = game.add.audio('sfx:jump');
     sfxCoin = game.add.audio('sfx:coin');
     sfxStomp = game.add.audio('sfx:stomp');
-    loadLevel(this.game.cache.getJSON('level:1'));
+    loadLevel(this.game.cache.getJSON('level:' + level));
     leftKey = game.input.keyboard.addKey(Phaser.Keyboard.LEFT);
     rightKey = game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
     upKey = game.input.keyboard.addKey(Phaser.Keyboard.UP);
@@ -84,7 +87,7 @@ function loadLevel(data) {
     enemyWalls.visible = false;
     data.platforms.forEach(spawnPlatform, this);
     // spawn hero and enemies
-    spawnCharacters({hero: data.hero, spiders: data.spiders});  
+    spawnCharacters({hero: data.hero, spiders: data.spiders});
     // spawn important objects
     data.coins.forEach(spawnCoin, this);
     spawnDoor(data.door.x, data.door.y);
@@ -166,6 +169,7 @@ function handleCollisions(){
 };
 
 function jump(){
+    hero.body.velocity.y = -600;
     var canJump = hero.body.touching.down;
     //Ensures hero is on the ground or on a platform
     if (canJump) {
@@ -286,6 +290,13 @@ function onHeroVsKey(hero, key){
 
 function onHeroVsDoor(hero, door){
     sfxDoor.play();
+    if (level === 0){
+        level = level + 1;
+    }
+    else {
+        level = 0;
+    }
+    hasKey = false;
     game.state.restart();
 }
 
