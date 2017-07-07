@@ -10,6 +10,8 @@ function preload(){
     game.load.image('images2', 'images/images2.png');
     game.load.json('level:1', 'data/level01.json');
     game.load.json('level:0', 'data/level00.json');
+    game.load.json('level:2', 'data/level02.json');
+    game.load.json('level:3', 'data/level03.json');
     //spawn platform sprites
     game.load.image('ground', 'images/ground.png');
     game.load.image('grass:8x1', 'images/grass_8x1.png');
@@ -24,7 +26,7 @@ function preload(){
     game.load.audio('sfx:coin', 'audio/coin.wav');
     game.load.audio('sfx:stomp', 'audio/stomp.wav');
     game.load.spritesheet('coin', 'images/coin_animated.png', 22, 22);
-    game.load.spritesheet('spider', 'images/spider.png', 42, 32);
+    game.load.image('spider', 'images/download21.png');
     game.load.image('invisible-wall', 'images/invisible_wall.png');
     game.load.image('icon:coin', 'images/coin_icon.png');
     game.load.image('font:numbers', 'images/numbers.png');
@@ -84,7 +86,7 @@ function loadLevel(data) {
     enemyWalls = game.add.group();
     bgDecoration = game.add.group();
     enemyWalls.visible = false;
-    data.platforms.forEach(spawnPlatform, this);
+    data.platforms.forEach(spawnPlatform);
     // spawn hero and enemies
     spawnCharacters({hero: data.hero, spiders: data.spiders});  
     spawnDoor(data.door.x, data.door.y);
@@ -269,6 +271,12 @@ function onHeroVsKey(hero, key){
 function onHeroVsDoor(hero, door){
     sfxDoor.play();
     if (level === 0){
+        level = level + 1;
+    }
+    else if(level === 1){
+        level = level + 1;
+    }
+    else if(level === 2){
         level = level + 1;
     }
     else {
